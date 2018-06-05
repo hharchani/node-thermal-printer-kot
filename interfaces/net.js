@@ -18,6 +18,7 @@ NetPrint.prototype.execute = function(buffer, cb) {
         cb(null);
       }
       printer.end();
+      printer.destroy();
     });
   });
 
@@ -26,6 +27,7 @@ NetPrint.prototype.execute = function(buffer, cb) {
       cb(err);
     }
     printer.end();
+    printer.destroy();
   });
 
   printer.on('timeout', function () {
@@ -33,6 +35,7 @@ NetPrint.prototype.execute = function(buffer, cb) {
       cb("Error: Socket Timeout");
     }
     printer.end();
+    printer.destroy();
   });
 };
 
