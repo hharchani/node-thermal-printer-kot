@@ -34,22 +34,25 @@ PrinterIface.prototype.isPrinterConnected = function(exists){
 };
 
 
-PrinterIface.prototype.execute = function(buffer, cb) {
-  this.driver.printDirect({
+PrinterIface.prototype.execute = function(buffer, cb, printDirectUserConfig) {
+  let printDirectUserConfig = Object.assign({}, printDirectUserConfig);
+  let printDirectConfig = Object.assign({}, printDirectUserConfig, {
     data: buffer,
-    printer: this.getPrinterName(),
     type: "RAW",
+    docname: printDirectConfig.docname || "node print job",
+    printer: this.getPrinterName(),
     success: function(jobID) {
       if (typeof cb === "function") {
-        cb(null);
+        cb(null, jobID);
       }
     },
     error: function(err) {
       if (typeof cb === "function") {
         cb(err);
       }
-    }
+    },
   });
+  this.driver.printDirect(printDirectConfig);
 };
 
 module.exports = PrinterIface;
