@@ -35,7 +35,8 @@ PrinterIface.prototype.isPrinterConnected = function(exists){
 
 
 PrinterIface.prototype.execute = function(buffer, cb, printDirectUserConfig) {
-  let printDirectConfig = Object.assign({}, printDirectUserConfig, {
+  let printDirectConfig = Object.assign({}, printDirectUserConfig);
+  printDirectConfig = Object.assign({}, {
     data: buffer,
     type: "RAW",
     docname: printDirectConfig.docname || "node print job",
